@@ -55,7 +55,7 @@ def register_command(kclass):
 
 
 def install_config(services_dir):
-    from t2cloud import pyini
+    from servos.utils import pyini
     # user can configure custom PYTHONPATH, so that servos can add these paths
     # to sys.path, and user can manage third party or public services in a separate
     # directory
@@ -301,7 +301,7 @@ class FindCommand(Command):
         self.get_application(global_options)
         from servos import settings
         from servos.core.simpleframe import collect_settings
-        from t2cloud.pyini import Ini
+        from servos.utils.pyini import Ini
 
         print '------ Combined value of [%s] ------' % option
         print settings.get_var(option)
@@ -348,80 +348,6 @@ class RunserverCommand(Command):
                          verbose=global_options.verbose)
 
 register_command(RunserverCommand)
-
-
-class I18nMakemessagesCommand(Command):
-    name = 'makemessages'
-    check_services_dirs = False
-    args = '<servicename, servicename, ...>'
-    help = 'Extract i18n message catalog form service or all services. Please notice that you can not set --servos and <servicename, ...> at the same time.'
-    has_options = True
-    option_list = (
-        make_option('--servos', dest='servos', action='store_true', default=False,
-                    help='If set, then extract translation messages from servos.'),
-        make_option('-l', dest='locale', default='zh-CN',
-                    help='Target locale. Default is "zh-CN".'),
-    )
-
-    def handle(self, options, global_options, *args):
-        from servos.utils.common import check_services_dir, pkg
-        from servos import get_service_dir
-        from t2cloud.translation import TranslatorFactory
-        opts = {'verbose': global_options.verbose}
-
-        if options.servos:
-            localedir = pkg.resource_filename('servos', '')
-        elif args:
-            check_services_dir(global_options.services_dir)
-            #app = self.get_application(global_options)
-            localedir = [get_service_dir(service_name) for service_name in args]
-        else:
-            check_services_dir(global_options.services_dir)
-            _services = simpleframe.get_services(global_options.services_dir)
-            localedir = [get_service_dir(service_name) for service_name in _services]
-
-        tf = TranslatorFactory(localedir)
-        tf.activate(options.locale)
-        tf._current_translator.extract(keywords='gettext_lazy ugettext_lazy pgettext_lazy:1c,2')
-
-register_command(I18nMakemessagesCommand)
-
-
-class I18nCompilemessagesCommand(Command):
-    name = 'compilemessages'
-    check_services_dirs = False
-    args = '<servicename, servicename, ...>'
-    help = 'Compile i18n message catalogs to MO files Extract. Please notice that you can not set --servos and <servicename, ...> at the same time.'
-    has_options = True
-    option_list = (
-        make_option('--servos', dest='servos', action='store_true', default=False,
-                    help='If set, then compile translation messages for servos.'),
-        make_option('-l', dest='locale', default='zh-CN',
-                    help='Target locale. Default is "zh-CN".'),
-    )
-
-    def handle(self, options, global_options, *args):
-        from servos.utils.common import check_services_dir, pkg
-        from servos import get_service_dir
-        from t2cloud.translation import TranslatorFactory
-        opts = {'verbose': global_options.verbose}
-
-        if options.servos:
-            localedir = pkg.resource_filename('servos', '')
-        elif args:
-            check_services_dir(global_options.services_dir)
-            #app = self.get_application(global_options)
-            localedir = [get_service_dir(service_name) for service_name in args]
-        else:
-            check_services_dir(global_options.services_dir)
-            _services = simpleframe.get_services(global_options.services_dir)
-            localedir = [get_service_dir(service_name) for service_name in _services]
-
-        tf = TranslatorFactory(localedir)
-        tf.activate(options.locale)
-        tf._current_translator.compile()
-
-register_command(I18nCompilemessagesCommand)
 
 
 def daemonize():

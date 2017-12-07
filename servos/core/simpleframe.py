@@ -2,10 +2,10 @@
 import os
 import sys
 import logging
-import t2cloud.pyini as pyini
 
 import servos.core.dispatch as dispatch
 import servos.core.service as service
+from servos.utils import pyini
 from servos.utils.localproxy import LocalProxy, Global
 from servos.utils.common import pkg, log, import_attr, myimport, norm_path
 from servos import ServosError

@@ -3,11 +3,7 @@ __all__ = ['set_language', 'get_language',
            'gettext_lazy', 'ugettext_lazy', 'pgettext_lazy',
            'gettext', 'ugettext', 'pgettext']
 
-import sys
-import py
 import six
-from t2cloud.translation import TranslatorFactory
-from t2cloud.translation._lazy import lazy
 
 
 class Trans(object):
@@ -46,6 +42,3 @@ def ugettext(message):
 def pgettext(context, message):
     return _trans.pgettext(context, message)
 
-gettext_lazy = lazy(gettext, str)
-ugettext_lazy = lazy(ugettext, six.text_type)
-pgettext_lazy = lazy(pgettext, six.text_type)
