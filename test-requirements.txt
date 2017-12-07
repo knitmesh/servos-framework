@@ -1,0 +1,4 @@
+# Importing from requirements.txt
+-r requirements.txt
+nose>=1.0
+mock==2.0.0

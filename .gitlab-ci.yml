@@ -1,0 +1,27 @@
+stages:
+  - build
+
+build_release_job:
+  stage: build
+  only:
+    - tags
+  script:
+    - pip install -r test-requirements.txt
+    - python setup.py bdist_wheel upload -r local
+  tags:
+    - portal-tests
+
+build_special_job:
+  stage: build
+  only:
+    - develop
+    - staging
+    - /^if\/.*$/
+  script:
+    - source ./.env
+    - pip install -r test-requirements.txt
+    - sed -i "N;2a\version = ${VERSION}" ./setup.cfg
+    - python setup.py bdist_wheel upload -r local
+  tags:
+    - portal-tests
+
