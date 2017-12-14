@@ -30,6 +30,13 @@
 - 编码服务逻辑。
 - 配置文件中增加要启动的服务。
 
+用户手册
+----
+
+* [快速开始](https://github.com/knitmesh/servos-framework/blob/master/docs/helloworld.md)
+* [日志处理说明](https://github.com/knitmesh/servos-framework/blob/master/docs/log.md)
+* [命令行命令说明](https://github.com/knitmesh/servos-framework/blob/master/docs/manage.md)
+* [配置文件说明](https://github.com/knitmesh/servos-framework/blob/master/docs/settings.md)
 依赖
 ---
 * Python 2.7
@@ -72,12 +79,3 @@ docker run --rm --network host \
     --name service-wss \
     t2cloud-service-wss:VERSION
 ```
-
-
-用户手册
-----
-
-* [快速开始](https://github.com/knitmesh/servos-framework/blob/master/docs/helloworld.md)
-* [日志处理说明](https://github.com/knitmesh/servos-framework/blob/master/docs/log.md)
-* [命令行命令说明](https://github.com/knitmesh/servos-framework/blob/master/docs/manage.md)
-* [配置文件说明](https://github.com/knitmesh/servos-framework/blob/master/docs/settings.md)
